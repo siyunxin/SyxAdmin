@@ -78,7 +78,7 @@ export default {
     }
   },
   created() {
-    // this.TabsList = this.tabsArr
+    // this.TabsList = this.tabsArr 
   },
   mounted() {}
 };
