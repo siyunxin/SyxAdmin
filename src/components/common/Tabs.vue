@@ -26,7 +26,6 @@ export default {
     return {
       TabsValue: "",
       TabsList: []
-      // tabIndex: 2
     };
   },
   computed:{
@@ -78,7 +77,8 @@ export default {
     }
   },
   created() {
-    // this.TabsList = this.tabsArr 
+    this.setTabs(this.$route);
+    this.TabsValue = this.$route.name;
   },
   mounted() {}
 };
