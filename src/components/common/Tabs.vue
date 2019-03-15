@@ -3,10 +3,11 @@
     <el-tabs
       v-model="TabsValue"
       type="card"
-      editable
+      closable 
       @edit="handleTabsEdit"
       @tab-click="handleTabsClick"
       @tab-remove="handleRemoveTab"
+      size="mini"
     >
       <el-tab-pane
         v-for="(item) in TabsList"
@@ -28,15 +29,15 @@ export default {
       TabsList: []
     };
   },
-  computed:{
-    ...mapGetters(['tabsArr'])
+  computed: {
+    ...mapGetters(["tabsArr"])
   },
   watch: {
     //监听路由
     $route(newValue, oldValue) {
       this.TabsValue = newValue.name;
       this.setTabs(newValue);
-    }
+    },
   },
   methods: {
     ...mapActions(["setTabsList"]),
@@ -57,23 +58,37 @@ export default {
         this.setTabsList(this.TabsList);
       }
     },
-    handleTabsClick() {},
+    //点击某一个tab
+    handleTabsClick(tab) {
+      console.log('tab',tab.name)   //name  与路由相同
+      this.$router.replace(`/${tab.name}`)
+    },
+    //删除某一个
     handleRemoveTab(targetName) {
-     
-      let tabNow = this.TabsValue;
-      let activeName = targetName;
-      if (tabNow == activeName) {
-       console.log(tabNow) 
-         this.TabsList.forEach((tab, index) => {
-            if (tab.name === targetName) {
-              console.log(tab.name)
-              let nextTab = this.TabsList[index + 1] || this.TabsList[index - 1];
-              if (nextTab) {
-                  activeName = nextTab.name;
-              }
+      let tabs = this.TabsList
+      let activeName = this.TabsValue;
+      if (targetName == activeName) {
+        
+        tabs.forEach((tab, index) => {
+          if (tab.name === targetName) {
+            let nextTab = tabs[index + 1] || tabs[index - 1];
+            
+            if (nextTab) {
+              this.$router.push(nextTab.path);
+              activeName = nextTab.name;
             }
-          });
+          }
+        });
       }
+      this.TabsValue = activeName;
+      this.TabsList = tabs.filter(tab => tab.name !== targetName);
+      if(this.TabsList.length==0){
+        this.$router.push('/')
+        return
+      }
+
+        this.setTabsList( this.TabsList)
+
     }
   },
   created() {
@@ -87,7 +102,13 @@ export default {
 <style scoped>
 </style>
 <style>
-.tabs .el-tabs__header {
-  margin: 0;
+.tabs{
+  
 }
+.tabs .is-top{
+  height: 34px;
+  line-height: 34px;
+   margin: 0;
+}
+
 </style>

@@ -1,3 +1,4 @@
 export default {
-    tabsArr:[]
+    tabsArr:[],
+    isCollapse: false,
 }
