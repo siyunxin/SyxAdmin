@@ -3,12 +3,14 @@
       @close="handleClose" -->
   <div class="slidebar">
     <el-menu
-      class="el-menu-vertical-demo"
+      class="sidebar-el-menu"
       background-color="#F2F2F2"
       text-color="#999"
       active-text-color="#266CAD"
       unique-opened 
       router
+      :collapse="iscollapse"
+      
     >
     <template v-for="item in menuList">
                 <template v-if="item.submenu">
@@ -33,15 +35,20 @@
                 </template>
             </template>
     </el-menu>
+    <div :class="this.iscollapse ? 'control_menu_left': 'control_menu'" @click="clickCollaps">
+      <i :class="this.iscollapse ? 'el-icon-d-arrow-right': 'el-icon-d-arrow-left'"></i>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: "slidebar",
   components: {},
   data() {
     return {
+      iscollapse: false,
       menuList: [
         {
           icon: "el-icon-syxzhuye",  
@@ -155,26 +162,49 @@ export default {
         }
       ]
     };
+  },
+  computed:{
+     
+  },
+  methods:{
+    ...mapActions(['setCollpase']),
+    clickCollaps(){
+      this.iscollapse = !this.iscollapse
+      this.setCollpase(this.iscollapse)
+    }
   }
 };
 </script>
 
 <style scoped>
     .slidebar{
+        width: auto;
+        display: inline-block;
         color: #999;
+        overflow-x: hidden;
     }
     .el-menu{
-        text-align: left
+        text-align: left;
     }
     .el-submenu__title{
-        text-align: left
+        text-align: left;
+       
+    }
+    .control_menu{
+        width: 100%;
+        text-align: center
+    }
+    .control_menu_left{
+      width: 60px;
+      text-align: center
+    }
+     .sidebar-el-menu:not(.el-menu--collapse){
+        width: 189px;
     }
     
    
 
 </style>
 <style>
-    .el-submenu:hover{
-        color: red;
-    }
+ 
 </style>
