@@ -1,49 +1,51 @@
 <template>
   <div class="dzzuserbrowse">
-    <div class="dzzuserbrowse_topmenu">
-      <slide-cascader></slide-cascader>
-      <edit-menu></edit-menu>
-    </div>
-    <div class="infomation_table">
-      <el-table
-        :data="tableData"
-        border
-        height="430"
-        style="width:100%"
-        @selection-change="handleSelectionChange"
-      >
-        <el-table-column fixed type="selection" prop="number" width="50" align="center"></el-table-column>
-        <el-table-column fixed prop="number" label="序号" width="50" align="center"></el-table-column>
-        <el-table-column fixed prop="title" label="标题" width="150"></el-table-column>
-        <el-table-column prop="smallPic" label="缩略图" width="120" sortable align="center">
-          <template slot-scope="scope">
-            <img :src="scope.row.smallPic" alt style="width: 50px;height: 50px">
-          </template>
-        </el-table-column>
-        <el-table-column prop="topPic" label="置顶头图" width="120" sortable align="center">
-          <template slot-scope="scope">
-            <img :src="scope.row.topPic" alt style="width: 50px;height: 50px">
-          </template>
-        </el-table-column>
-        <el-table-column prop="publisher" label="发布者" width="100"></el-table-column>
-        <el-table-column prop="publishRange" label="发布范围" width="100"></el-table-column>
-        <el-table-column prop="topStatus" label="置顶状态" width="80"></el-table-column>
-        <el-table-column prop="visitorCount" label="访问量" width="80"></el-table-column>
-        <el-table-column prop="likeCount" label="点赞数" width="80"></el-table-column>
-        <el-table-column prop="collectCount" label="收藏数" width="80"></el-table-column>
-        <el-table-column prop="status" label="状态"></el-table-column>
-      </el-table>
-    </div>
-    <div class="infomation_pagination">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-sizes="[10, 20, 30, 40,50]"
-        :page-size="10"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="50"
-      ></el-pagination>
+    <div v-show="!edit_formShow">
+      <div class="dzzuserbrowse_topmenu">
+        <slide-cascader></slide-cascader>
+        <edit-menu></edit-menu>
+      </div>
+      <div class="infomation_table">
+        <el-table
+          :data="tableData"
+          border
+          height="430"
+          style="width:100%"
+          @selection-change="handleSelectionChange"
+        >
+          <el-table-column fixed type="selection" prop="number" width="50" align="center"></el-table-column>
+          <el-table-column fixed prop="number" label="序号" width="50" align="center"></el-table-column>
+          <el-table-column fixed prop="title" label="标题" width="150"></el-table-column>
+          <el-table-column prop="smallPic" label="缩略图" width="120" sortable align="center">
+            <template slot-scope="scope">
+              <img :src="scope.row.smallPic" alt style="width: 50px;height: 50px">
+            </template>
+          </el-table-column>
+          <el-table-column prop="topPic" label="置顶头图" width="120" sortable align="center">
+            <template slot-scope="scope">
+              <img :src="scope.row.topPic" alt style="width: 50px;height: 50px">
+            </template>
+          </el-table-column>
+          <el-table-column prop="publisher" label="发布者" width="100"></el-table-column>
+          <el-table-column prop="publishRange" label="发布范围" width="100"></el-table-column>
+          <el-table-column prop="topStatus" label="置顶状态" width="80"></el-table-column>
+          <el-table-column prop="visitorCount" label="访问量" width="80"></el-table-column>
+          <el-table-column prop="likeCount" label="点赞数" width="80"></el-table-column>
+          <el-table-column prop="collectCount" label="收藏数" width="80"></el-table-column>
+          <el-table-column prop="status" label="状态"></el-table-column>
+        </el-table>
+      </div>
+      <div class="infomation_pagination">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[10, 20, 30, 40,50]"
+          :page-size="10"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="50"
+        ></el-pagination>
+      </div>
     </div>
     <edit-form v-show="edit_formShow" @closeEdit="closeEditForm"></edit-form>
   </div>
@@ -52,7 +54,7 @@
 <script>
 import SlideCascader from "@/components/common/slideCascader";
 import EditMenu from "@/components/common/editMenu";
-import EditForm from "@/components/common/editForm"
+import EditForm from "@/components/common/editForm";
 export default {
   name: "dzz_user_browse",
   components: {
@@ -62,7 +64,7 @@ export default {
   },
   data() {
     return {
-      currentPage: 1,  
+      currentPage: 1,
       edit_formShow: true,
       tableData: [
         {
@@ -163,15 +165,11 @@ export default {
     handleSelectionChange(val) {
       console.log(val);
     },
-    handleSizeChange(){
-        
-    },
-    handleCurrentChange(){
-
-    },
+    handleSizeChange() {},
+    handleCurrentChange() {},
     //隐藏编辑页面
-    closeEditForm(){
-        this.edit_formShow = !this.edit_formShow
+    closeEditForm() {
+      this.edit_formShow = !this.edit_formShow;
     }
   },
   created() {},
@@ -195,10 +193,9 @@ export default {
 .infomation_table {
   width: 99%;
 }
-.infomation_pagination{
-    width: 99%;
-    text-align: right;
-    margin: 3px;
-
+.infomation_pagination {
+  width: 99%;
+  text-align: right;
+  margin: 3px;
 }
 </style>
