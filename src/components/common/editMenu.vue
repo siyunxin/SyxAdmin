@@ -27,14 +27,14 @@
       </el-select>
     </div>
     <div>
-        <el-button type="primary" size="small" icon="el-icon-search">搜索</el-button>
-        <el-button type="primary" size="small" icon="el-icon-circle-plus-outline">添加</el-button>
-        <el-button type="primary" size="small" icon="el-icon-edit">编辑</el-button>
-        <el-button type="primary" size="small" icon="el-icon-delete">删除</el-button>
-        <el-button type="primary" size="small" icon="el-icon-tickets">预览</el-button>
-        <el-button type="primary" size="small" icon="el-icon-upload2">提交审核</el-button>
-        <el-button type="primary" size="small" icon="el-icon-arrow-up">置顶</el-button>
-        <el-button type="primary" size="small" icon="el-icon-arrow-down">取消置顶</el-button>
+        <el-button type="primary" size="small" icon="el-icon-search" @click="handleSearch">搜索</el-button>
+        <el-button type="primary" size="small" icon="el-icon-circle-plus-outline" @click="handleAdd">添加</el-button>
+        <el-button type="primary" size="small" icon="el-icon-edit" @click="handleEdit">编辑</el-button>
+        <el-button type="primary" size="small" icon="el-icon-delete" @click="handleDelete">删除</el-button>
+        <el-button type="primary" size="small" icon="el-icon-tickets" @click="handlePreview">预览</el-button>
+        <el-button type="primary" size="small" icon="el-icon-upload2" @click="handleSubmitCheck">提交审核</el-button>
+        <el-button type="primary" size="small" icon="el-icon-arrow-up" @click="handleSetTop">置顶</el-button>
+        <el-button type="primary" size="small" icon="el-icon-arrow-down" @click="handleCancleSetTop">取消置顶</el-button>
     </div>
     
       
@@ -91,7 +91,35 @@ export default {
         }
       ]
     };
-  }
+  },
+  methods:{
+    handleSearch(){
+
+    },
+    handleAdd(){
+      this.$emit('articleAdd')
+    },
+    handleEdit(){
+
+    },
+    handleDelete(){
+      this.$emit('articleDelete')
+    },
+    handlePreview(){
+
+    },
+    handleSubmitCheck(){
+
+    },
+    handleSetTop(){
+
+    },
+    handleCancleSetTop(){
+
+    }
+    
+  },
+
 };
 </script>
 

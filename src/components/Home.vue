@@ -7,7 +7,7 @@
       </div>
       <div class="content">
         <tabs></tabs>
-        <div style="height:100%">
+        <div style="height:96%">
           <transition name="fade" mode="out-in">
             <keep-alive>
               <router-view></router-view>
@@ -92,8 +92,6 @@ a {
   padding: 0;
 }
 
-.el-container > header {
-}
 .content_box {
   height: 100%;
   display: flex;

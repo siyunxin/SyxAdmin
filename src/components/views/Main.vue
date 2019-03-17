@@ -182,7 +182,7 @@ export default {
 
 <style scoped>
 .main_box {
-  height: 90%;  
+  height: 96%;  
   background: #f4f9f4;
   padding: 0 10px;
   overflow-y:scroll;

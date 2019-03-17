@@ -3,7 +3,7 @@
     <div v-show="!edit_formShow">
       <div class="dzzuserbrowse_topmenu">
         <slide-cascader></slide-cascader>
-        <edit-menu></edit-menu>
+        <edit-menu @articleAdd="articleAdd" @articleDelete="articleDelete"></edit-menu>
       </div>
       <div class="infomation_table">
         <el-table
@@ -47,7 +47,49 @@
         ></el-pagination>
       </div>
     </div>
-    <edit-form v-show="edit_formShow" @closeEdit="closeEditForm"></edit-form>
+    <edit-form
+      v-show="edit_formShow"
+      @closeEdit="closeEditForm"
+      @postSave="receiveSave"
+      @select_smallImage="openCrooper"
+      :smallImage="cropImg"
+      :topImage="cropImg"
+    ></edit-form>
+    <div>
+      <el-dialog :visible.sync="showCropper" title="封面裁图" width="70%">
+        <div class="crop-demo-btn">
+          选择图片
+          <input
+            class="crop-input"
+            type="file"
+            name="image"
+            accept="image/*"
+            @change="setImage"
+          >
+        </div>
+        <div class="croper-box">
+          <div>
+            <vue-cropper
+              ref="cropper"
+              :src="imgSrc"
+              :ready="cropImage"
+              :zoom="cropImage"
+              :cropmove="cropImage"
+              style="width:500px;height:300px;"
+            ></vue-cropper>
+          </div>
+          <div class="crop-demo">
+            <img :src="cropImg" class="pre-img">
+          </div>
+        </div>
+        <div>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="cancelCrop">取 消</el-button>
+            <el-button type="primary" @click="hiddenDialog">确 定</el-button>
+          </span>
+        </div>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -55,17 +97,24 @@
 import SlideCascader from "@/components/common/slideCascader";
 import EditMenu from "@/components/common/editMenu";
 import EditForm from "@/components/common/editForm";
+import VueCropper from "vue-cropperjs";
 export default {
   name: "dzz_user_browse",
   components: {
     SlideCascader,
     EditMenu,
-    EditForm
+    EditForm,
+    VueCropper
   },
   data() {
     return {
       currentPage: 1,
-      edit_formShow: true,
+      edit_formShow: false,
+      selectionArr: [], //删除选中
+      showCropper: false,
+      cropImg: "",
+      imgSrc: "",
+      defaultSrc: require("../../../assets/logo.png"),
       tableData: [
         {
           number: 1,
@@ -163,16 +212,65 @@ export default {
   },
   methods: {
     handleSelectionChange(val) {
-      console.log(val);
+      this.selectionArr = val;
     },
+    //条数
     handleSizeChange() {},
+    //页码
     handleCurrentChange() {},
     //隐藏编辑页面
     closeEditForm() {
-      this.edit_formShow = !this.edit_formShow;
+      this.edit_formShow = false;
+    },
+    //接收保存按钮
+    receiveSave(obj) {
+      console.log(obj);
+    },
+    //添加按钮点击
+    articleAdd() {
+      this.edit_formShow = true;
+    },
+    //删除按钮点击
+    articleDelete() {
+      this.selectionArr.map(item => {
+        let selectionIndex = item.number;
+        this.tableData = this.tableData.filter((item, index, arr) => {
+          return item.number != selectionIndex;
+        });
+      });
+    },
+    //打开裁剪弹框
+    openCrooper(){
+      this.showCropper = true
+    },
+    //设置裁剪图片
+    setImage(e) {
+      const file = e.target.files[0];
+      if (!file.type.includes("image/")) {
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = event => {
+        this.dialogVisible = true;
+        this.imgSrc = event.target.result;
+        this.$refs.cropper && this.$refs.cropper.replace(event.target.result);
+      };
+      reader.readAsDataURL(file);
+    },
+    hiddenDialog() {
+      this.showCropper = false;
+    },
+    cropImage() {
+      this.cropImg = this.$refs.cropper.getCroppedCanvas().toDataURL();
+    },
+    cancelCrop() {
+      this.dialogVisible = false;
+      this.cropImg = this.defaultSrc;
     }
   },
-  created() {},
+  created() {
+    this.cropImg = this.defaultSrc;
+  },
   mounted() {}
 };
 </script>
@@ -186,7 +284,7 @@ export default {
 }
 .dzzuserbrowse {
   width: 100%;
-  height: 90%;
+  height: 100%;
   position: relative;
   /* overflow-y:scroll; */
 }
@@ -197,5 +295,16 @@ export default {
   width: 99%;
   text-align: right;
   margin: 3px;
+}
+.croper-box {
+  display: flex;
+}
+.crop-demo {
+  width: 120px;
+  height: 100px;
+}
+.crop-demo img {
+  width: 100%;
+  height: 100%;
 }
 </style>

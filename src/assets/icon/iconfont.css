@@ -44,6 +44,8 @@
 }
 
 .el-icon-syxdiannao:before {
+
+  font-size: 14px;
   content: "\e61e";
 }
 
