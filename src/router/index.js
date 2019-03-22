@@ -34,6 +34,12 @@ export default new Router({
           name: 'roleallot',
           component: resolve => require(['@/components/views/RoleManagement/roleAllot'], resolve),
           meta: { title: '角色分配' }
+        },
+        {
+          path: '/zxglyfb',
+          name:'zxglyfb',
+          component: resolve => require(['@/components/views/informationManage/publisher'], resolve),
+          meta: { title: '信息管理与发布' }
         }
       ]
     }

@@ -1,70 +1,80 @@
 <template>
-  <el-table :data="tableData" border >
-    <el-table-column fixed prop="date" label="日期" width="150"></el-table-column>
-    <el-table-column prop="name" label="图片" width="120" sortable align="center">
-      <template slot-scope="scope">
-      <img  :src="scope.row.name" alt="" style="width: 50px;height: 50px">
-    </template>
-    </el-table-column>
-    <el-table-column prop="province" label="省份" width="120"></el-table-column>
-    <el-table-column prop="city" label="市区" width="120"></el-table-column>
-    <el-table-column prop="address" label="地址" width="300">
-    </el-table-column>
-    <el-table-column prop="zip" label="邮编" width="120"></el-table-column>
-    <el-table-column  label="操作" width="" align="center">
-      <template slot-scope="scope">
-        <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-        <el-button type="text" size="small">编辑</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+  <div class="dzzbrowse">
+    <div class="dzztree">
+      <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+    </div>
+    <div class="dzztable">
+
+    </div>
+
+  </div>
 </template>
 
 <script>
 export default {
-  methods: {
-    handleClick(row) {
-      console.log(row);
-    }
-  },
-
+  name:'dzzbrowse',
   data() {
     return {
-      tableData: [
-        {
-          date: "2019-03-12",
-          name: require('../../../assets/logo.png'),
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333
-        },
-        {
-          date: "2019-03-12",
-          name: require('../../../assets/logo.png'),
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1517 弄",
-          zip: 200333
-        },
-        {
-          date: "2019-03-12",
-          name: require('../../../assets/logo.png'),
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1519 弄",
-          zip: 200333
-        },
-        {
-          date: "2019-03-12",
-          name: require('../../../assets/logo.png'),
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1516 弄",
-          zip: 200333
+         data: [{
+          label: '一级 1',
+          children: [{
+            label: '二级 1-1',
+            children: [{
+              label: '三级 1-1-1'
+            }]
+          }]
+        }, {
+          label: '一级 2',
+          children: [{
+            label: '二级 2-1',
+            children: [{
+              label: '三级 2-1-1'
+            }]
+          }, {
+            label: '二级 2-2',
+            children: [{
+              label: '三级 2-2-1'
+            }]
+          }]
+        }, {
+          label: '一级 3',
+          children: [{
+            label: '二级 3-1',
+            children: [{
+              label: '三级 3-1-1'
+            }]
+          }, {
+            label: '二级 3-2',
+            children: [{
+              label: '三级 3-2-1'
+            }]
+          }]
+        }],
+        defaultProps: {
+          children: 'children',
+          label: 'label'
         }
-      ]
     };
-  }
+  },
+  methods: {
+    handleNodeClick(data) {
+        console.log(data);
+      }
+  },
 };
 </script>
+<style scoped>
+  .dzzbrowse{
+    width: 100%;
+    display: flex;
+  }
+  .dzztable,.dzztree{
+    flex: 1;
+    min-height: 100px;
+    border: 1px solid #000
+  }
+  /* .dzztree{
+    flex: 1;
+  } */
+
+</style>

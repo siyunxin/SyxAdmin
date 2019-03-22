@@ -67,27 +67,36 @@
             @change="setImage"
           >
         </div>
-        <div class="croper-box">
-          <div>
-            <vue-cropper
-              ref="cropper"
-              :src="imgSrc"
-              :ready="cropImage"
-              :zoom="cropImage"
-              :cropmove="cropImage"
-              style="width:500px;height:300px;"
-            ></vue-cropper>
+        <div class="cropper—box">
+          <div class="cropper-content">
+            <div class="cropper">
+              <vueCropper
+                ref="cropper"
+                :img="option.img"
+                :outputSize="option.size"
+                :outputType="option.outputType"
+                :info="true"
+                :full="option.full"
+                :canScale="true"
+                :centerBox="true"
+                :canMove="option.canMove"
+                :canMoveBox="option.canMoveBox"
+                :autoCrop="option.autoCrop"
+                :autoCropWidth="option.autoCropWidth"
+                :autoCropHeight="option.autoCropHeight"
+                :fixedNumber="option.fixedNumber"
+                :fixed="option.fixed"
+                :fixedBox="option.fixedBox"
+              ></vueCropper>
+            </div>
           </div>
-          <div class="crop-demo">
-            <img :src="cropImg" class="pre-img">
+          <div class="imgbox">
+            <img height:300px width:300px :src="cropImg" alt>
           </div>
         </div>
-        <div>
-          <span slot="footer" class="dialog-footer">
-            <el-button @click="cancelCrop">取 消</el-button>
-            <el-button type="primary" @click="hiddenDialog">确 定</el-button>
-          </span>
-        </div>
+
+        <el-button type="primary" @click="handleCancle">取消</el-button>
+        <el-button type="success" @click="handleCropper">裁剪</el-button>
       </el-dialog>
     </div>
   </div>
@@ -97,14 +106,12 @@
 import SlideCascader from "@/components/common/slideCascader";
 import EditMenu from "@/components/common/editMenu";
 import EditForm from "@/components/common/editForm";
-import VueCropper from "vue-cropperjs";
 export default {
   name: "dzz_user_browse",
   components: {
     SlideCascader,
     EditMenu,
-    EditForm,
-    VueCropper
+    EditForm
   },
   data() {
     return {
@@ -113,8 +120,20 @@ export default {
       selectionArr: [], //删除选中
       showCropper: false,
       cropImg: "",
-      imgSrc: "",
-      defaultSrc: require("../../../assets/logo.png"),
+      option: {
+        img: require("../../../assets/logo.png"),
+        size: 1,
+        full: false,
+        outputType: "png",
+        canMove: false,
+        canMoveBox: true,
+        autoCrop: true,
+        autoCropWidth: 120,
+        autoCropHeight: 90,
+        fixedNumber: [4, 3],
+        fixed: true,
+        downImg: "#"
+      },
       tableData: [
         {
           number: 1,
@@ -240,32 +259,42 @@ export default {
       });
     },
     //打开裁剪弹框
-    openCrooper(){
-      this.showCropper = true
+    openCrooper() {
+      this.showCropper = true;
     },
     //设置裁剪图片
     setImage(e) {
+      var that = this;
       const file = e.target.files[0];
       if (!file.type.includes("image/")) {
         return;
       }
       const reader = new FileReader();
+      reader.readAsDataURL(file);
       reader.onload = event => {
         this.dialogVisible = true;
-        this.imgSrc = event.target.result;
-        this.$refs.cropper && this.$refs.cropper.replace(event.target.result);
+        that.option.img = event.target.result;
       };
-      reader.readAsDataURL(file);
     },
-    hiddenDialog() {
+    handleCancle() {
       this.showCropper = false;
     },
-    cropImage() {
-      this.cropImg = this.$refs.cropper.getCroppedCanvas().toDataURL();
-    },
-    cancelCrop() {
-      this.dialogVisible = false;
-      this.cropImg = this.defaultSrc;
+    handleCropper() {
+      let that = this;
+      // 获取截图的blob数据
+      this.$refs.cropper.getCropBlob(data => {
+        console.log(data);
+        let that = this;
+
+        // let reader = new FileReader()
+        // reader.readAsDataURL(data)
+        // reader.onload = e =>{
+        //      that.modelsrc = e.target.result;
+        // }
+
+        let windowURL = window.URL || window.webkitURL;
+        this.cropImg = windowURL.createObjectURL(data);
+      });
     }
   },
   created() {
@@ -306,5 +335,23 @@ export default {
 .crop-demo img {
   width: 100%;
   height: 100%;
+}
+.cropper—box{
+  width: 100%;
+  display: flex;
+}
+.cropper-content{
+  width: 70%;
+}
+.cropper{
+  width: 500px;
+  height: 300px;
+}
+.imgbox{
+  height:360px;
+  width:480px;
+}
+.imgbox img{
+   border: 1px solid #DCDFE6;
 }
 </style>

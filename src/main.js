@@ -8,6 +8,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './assets/icon/iconfont.css'
 import store from './store'
 import echarts from 'echarts'
+import VueCropper from 'vue-cropper' 
+
+Vue.use(VueCropper)
 Vue.config.productionTip = false
 Vue.prototype.$echarts = echarts
 Vue.use(ElementUI)

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="select_eader">请选择资讯发布栏目</div>
+    <div class="select_eader">请选择资讯发布栏目 </div>
     <div class="select_box">
       <div class="inline">
         <el-cascader

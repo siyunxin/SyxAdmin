@@ -26,10 +26,10 @@
               <el-button type="primary" @click="selectSamllImage">选择图片</el-button>
               <div class="smallpic_box">
                 <div>
-                  <img :src="smallImage" alt="">
+                  <img :src="smallImage" alt>
                 </div>
                 <div>
-                   <span>缩略图：资讯列表前展示的配图</span>
+                  <span>缩略图：资讯列表前展示的配图</span>
                 </div>
               </div>
             </el-form-item>
@@ -53,7 +53,6 @@
                 <el-button type="success" icon="el-icon-view" @click="contentPreview">预览</el-button>
                 <el-button type="danger" icon="el-icon-close" @click="contentCancle">取消</el-button>
               </div>
-              
             </el-form-item>
           </el-form>
           <div style="height:100px;"></div>
@@ -70,9 +69,9 @@ import "quill/dist/quill.bubble.css";
 import { quillEditor } from "vue-quill-editor";
 export default {
   name: "edit-form",
-  props:{
+  props: {
     smallImage: String,
-    topImage: String,
+    topImage: String
   },
   components: {
     quillEditor
@@ -82,7 +81,7 @@ export default {
       labelPosition: "right",
       title: "",
       programaName: "主题教育",
-      publisher:"",
+      publisher: "",
       publishRange: "",
       content: "",
       editorOption: {
@@ -94,32 +93,23 @@ export default {
     closeEditPage() {
       this.$emit("closeEdit");
     },
-    contentSave(){
+    contentSave() {
       let parmas = {
-        "title":this.title,
-        "programaName" : this.programaName,
-        "publisherthis" : this.publisher,
-        "publishRange" : this.publishRange,
-        "content" : this.content
-      }
-      this.$emit("postSave",parmas)
-      
+        title: this.title,
+        programaName: this.programaName,
+        publisherthis: this.publisher,
+        publishRange: this.publishRange,
+        content: this.content
+      };
+      this.$emit("postSave", parmas);
     },
-    contentSubmit(){
-
+    contentSubmit() {},
+    contentPreview() {},
+    contentCancle() {},
+    selectSamllImage() {
+      this.$emit("select_smallImage");
     },
-    contentPreview(){
-
-    },
-    contentCancle(){
-
-    },
-    selectSamllImage(){
-       this.$emit("select_smallImage") 
-    },
-    selectTopImage(){
-
-    }
+    selectTopImage() {}
   },
   created() {},
   mounted() {}
@@ -134,16 +124,16 @@ export default {
   overflow: hidden;
   top: 0;
   left: 0;
-   border: 1px solid #DCDFE6;
-   border-top:0px;
+  border: 1px solid #dcdfe6;
+  border-top: 0px;
 }
 .editform_head {
   height: 38px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #F8F8F8;
-  border-bottom: #E4E7ED;
+  background: #f8f8f8;
+  border-bottom: #e4e7ed;
 }
 .edit_name {
   width: 120px;
@@ -168,14 +158,16 @@ export default {
   width: 66%;
   margin: 10px auto;
 }
-.ql-container{
-  height:200px;
+.ql-container {
+  height: 200px;
 }
-.form-button{
-  width:100%;text-align:center;height:30px;
+.form-button {
+  width: 100%;
+  text-align: center;
+  height: 30px;
 }
-.smallpic_box{
+.smallpic_box {
   display: flex;
-  align-items: center
+  align-items: center;
 }
 </style>
